@@ -280,9 +280,15 @@ common_ext_args = {
     "py_limited_api": True,
 }
 libtom_ext_args = dict(common_ext_args)
-libtom_ext_args.update({
-    "include_dirs": ["src/", "src/libtom/"],
-})
+if "USE_SYSTEM_TOMCRYPT" in os.environ:
+    libtom_ext_args.update({
+        "define_macros": [("USE_SYSTEM_TOMCRYPT", "1")],
+        "extra_link_args": ["-ltomcrypt"],
+    })
+else:
+    libtom_ext_args.update({
+        "include_dirs": ["src/", "src/libtom/"],
+    })
 
 ext_modules = [
     # Hash functions

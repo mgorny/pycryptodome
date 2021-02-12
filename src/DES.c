@@ -39,7 +39,11 @@ FAKE_INIT(raw_des3)
 
 /* Include the actial DES implementation */
 #define LTC_NO_PROTOTYPES
-#include "libtom/tomcrypt_des.c"
+#ifdef USE_SYSTEM_TOMCRYPT
+#   include <tomcrypt.h>
+#else
+#   include "libtom/tomcrypt_des.c"
+#endif
 
 struct block_state {
     symmetric_key sk;
